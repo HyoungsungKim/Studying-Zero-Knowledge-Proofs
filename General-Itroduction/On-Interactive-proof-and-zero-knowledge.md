@@ -82,3 +82,13 @@ You may now want to call the interactive turing machine **M₁** the prover **P*
 All what we need to know is that the statement the prover **P** wants to prove must — very loosely speaking — be encoded in a particular language. With **(x,w) ∈ L** and **(x,w) ∉ L** we express a correct/incorrect proof statement or in other words the pair **(x,w)** is a member of the language **L**.
 
 Typically the value **x** is public and known to both the prover and verifier and the parameter **w** (called the witness) is private and known to the prover only.
+
+#### Zero-knowledge
+
+Despite the information disadvantage, let’s assume the simulator produces a transcript that “looks like” an interaction between the prover and the verifier Then it must be the case that the real protocol transcript leaks as much information as the simulated transcript. Note it must be like that. Otherwise the executions were distinguishable.
+
+> Simulator가 prover와 유사하게 행동한다면, prover가 유출하는 정보의 양은 simulator와 유사 함 . 그렇지 않다면, prover와 simulator가 구분 됨.
+
+By construction, however, the simulated transcript is zero-knowledge: It leaks no partial information about the witness **w**. ***In fact, the simulator can’t leak any information at all because it is not in possession of the witness.*** The conclusion must be that the real protocol transcript leaks no information about the witness as well, as the simulated transcript is indistinguishable, that is as good as the real one. Hence the real protocol is zero-knowledge.
+
+> 하지만 Simulator는 witness에 대한 정보가 없기 때문에 어떠한 witness에 대한 정보도 유출 할 수 없음. 이것은 곧 prover 역시 witness에 대한 정보를 유출 하지 않는다는 걸 의미 함(indistinguishable).
