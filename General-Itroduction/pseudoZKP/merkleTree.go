@@ -4,10 +4,11 @@ import (
 	"crypto/sha256"
 	"errors"
 	"math"
+	"math/big"
 	"reflect"
 )
 
-func hashString(s []byte) [32]byte {
+func hashString(s big.Int) [32]byte {
 	return sha256.Sum256(s)
 }
 
@@ -68,7 +69,7 @@ func (m MerkleTree) getValAndPath(id int) (byte, [][32]byte) {
 
 func VerifyMerklePath(dataSize, valueId int, root, value []byte, path [][32]byte) (bool, error) {
 	cur := hashString(value)
-	treeNodeID := valueId + int(math.Pow(2, math.Log2(float64(dataSize))))
+	treeNodeID := valueId + int(math.Pow(2, math.Ceil(math.Log2(float64(dataSize)))))
 
 	for _, sibling := range path {
 		if treeNodeID <= 0 {
