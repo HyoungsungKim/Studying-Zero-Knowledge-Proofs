@@ -37,3 +37,9 @@ There was something missing in that protocol – the fact that Alice is *able* t
 ## Part 4 : How to make Blind Evaluation of Polynomials Verifiable
 
 ### An Extended KCA(Knowledge of Coefficient Assumption)
+
+## Part 5 : From Computations to polynomials
+
+In 2013, Gennaro, Gentry, Parno and Raykova defined an extremely useful translation of computations into polynomials called a *Quadratic Arithmetic Program* (QAP).
+
+- QAPs have become the basis for modern zk-SNARK constructions, in particular those used by Zcash.
