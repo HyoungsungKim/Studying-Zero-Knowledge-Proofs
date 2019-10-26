@@ -43,3 +43,7 @@ There was something missing in that protocol – the fact that Alice is *able* t
 In 2013, Gennaro, Gentry, Parno and Raykova defined an extremely useful translation of computations into polynomials called a *Quadratic Arithmetic Program* (QAP).
 
 - QAPs have become the basis for modern zk-SNARK constructions, in particular those used by Zcash.
+
+### Reduction to a QAP
+
+The idea for the definition is that the polynomials will usually be zero on the target points, except the ones involved in the target point’s corresponding multiplication gate.
