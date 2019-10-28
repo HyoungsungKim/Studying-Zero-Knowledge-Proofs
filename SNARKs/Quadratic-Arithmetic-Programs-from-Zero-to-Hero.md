@@ -31,3 +31,7 @@ sym_2 = y + x
 R1CS : Rank-1 constraint system
 
 We convert flattening into something called a rank-1 constraint system (R1CS).
+
+- An R1CS is a sequence of groups of three vectors `(a, b, c)`, ***and the solution to an R1CS is a vector `s`***, where `s` must satisfy the equation `s . a * s . b - s . c = 0`
+  - `.` represents the dot product - in simpler terms, if we "zip together" `a` and `s`, multiplying the two values in the same positions, and then take the sum of these products, then do the same to `b` and `s` and then `c` and `s`, ***then the third result equals the product of the first two results.***
+- 
