@@ -48,7 +48,7 @@ Hyperledger Fabric’s channel architecture can offer privacy in certain cases.
 
 Private transactions offer transaction privacy at a more fine-grained level than channels.
 
-- Private transactions은 channel보다 더 향상된 privacy를 제공 함
+- Private transactions은 channel보다 더 세분화 된 privacy를 제공 함
 
 > “Verified. Me by Secure-Key Technologies relies on strong privacy and confidentiality requirements. ***The solution depends on minimizing data disclosure and retention to appropriate parties, while still retaining the evidence of actions taken in the network.*** This balance is fundamental, and the ***foundation is provided in Hyperledger Fabric with the combination of Channels and Private Transactions.*** Watch the video to understand the real business value at work utilizing Hyperledger Fabric technology. Greg Wolfond, CEO, Secure-Key Technologies“
 
@@ -74,3 +74,52 @@ The database storing the private data is updated alongside the public ledger as 
     - Privacy는 실제 민감한 데이터 접근에 통제가 되어야 이루어 질 수 있다.
     - 만약 익명의 사용자 인증이 추가로 사용된다면, 감춰진 해시된 기록을 도입하거나, 업그레이드 한 독립된 인증으로 제공 될 것이기 때문에 더 강력한 프라이버시가 제공 될 것이다. 
 
+Private transactions should be used with care in cases where the pattern of private data updates is also sensitive information and could be used to derive the actual private data.
+
+- Although Hyperledger Fabric  architecture prevents unauthorized access to the actual private data,  shared ledger participants can still see when a private data (hashed) entry is modified.
+- In the previous example, if a private data entry represents the number of visits by a specific patient to a hospital  (assuming the patient has regular weekly meetings with his or her  doctor), ***then patterns of updates to this entry could provide information about the reason for that patient’s visit to the doctor*** (for example, that the patient suffers from chronic disease).
+
+While private transactions protect the actual private data from being directly accessed by unauthorized parties, they do not prevent public ledger participants from detecting when this private data is being modified. Private data hashes occupy key-value entries in the ledger state, whose changes are publicly available.
+
+Also, ***private transactions do not conceal the parties who are allowed access to the private data.*** This information is available on the ledger for private data dissemination to take place properly.
+
+## Zero-knowledge proof (ZKP) technologies in Hyperledger Fabric
+
+Zero-knowledge proof primitives enable a party who possesses a secret (the prover) to prove to another party (the verifier) that its secret satisfies a certain set of properties (knowledge) without revealing the actual secret (zero-knowledge).
+
+- 영지식 증명이란 비밀을 가지고 있는 사람(The prover)가 특정 집단(The verifier)에게 비밀을 보여주지 않고, 비밀을 알고 있다는걸 증명하는 방법
+
+Two privacy aspects of Hyperledger Fabric will be achieved
+
+- ZKPs:  Anonymous client authentication with Identity Mixer
+- ZKAT : Privacy-preserving exchange of assets with Zero-Knowledge Asset Transfer.
+
+### Anonymous client authentication with Identity Mixer
+
+***Identity Mixer*** is available in the Hyperledger Fabric 1.1 tech preview (and coming as a release feature in Hyperledger Fabric 1.2). It leverages ZKP to offer anonymous authentication for clients in their transactions.
+
+- ***ZKP protocols take place between*** the ***Fabric client*** whose secret is its actual identity — and any attributes associated with it — ***and the rest of network entities, such as its peers.***
+- These entities wish to verify that the creator of a transaction is a member of a particular organization (known as a “membership proof”), or that it is in  possession of a specific set of attributes (known as “selective  disclosure of attributes”).
+  - 이 구성원들은 특정 조직(membership proof)의 멤버가 거래의 생성자인지 또는 특정 속성의 집합의 소유자(selective disclosure of attributes)인지 증명하고 싶어 함
+
+In both cases, the protocols guarantee that nothing is revealed about the client’s identity beyond whether the corresponding statement is true.
+
+- 두 경우 모두 프로토콜은 해당하는 상태가 사실인지 아닌지는 클라이언트의 신분이 드러나지 않도록 보장한다
+
+### Privacy-preserving exchange of assets with Zero-Knowledge Asset Transfer (ZKAT)
+
+In an upcoming release, Hyperledger Fabric will integrate ZKP into a wider range of applications targeting asset management. The Hyperledger Fabric community showed the next evolution and use of  ZKP to accommodate privacy-preserving asset management with audit support (also known as Zero-Knowledge Asset Transfer, or ZKAT).
+
+- ***It allows transactors to issue assets and request transfer of their assets without revealing anything to the public ledger*** for the assets being exchanged beyond the fact that the transfer complies with the asset management rules (that each asset is transferred at its owner’s request, and there is no new value created through the transfer). ***ZKAT is built on top of anonymous authentication mechanisms offered by Identity Mixer.***
+
+Unlike other privacy-preserving asset management systems for blockchain, ZKAT is tailored to the needs of enterprise networks.
+
+- 다른 블록 체인을 위한 개인 정보 보호 자산 운영 시스템과 달리, ZKAT는 기업 네트워크의 필요를 위해 제작 됐다.
+- In particular, auditability of the privacy-preserving transactions is a crucial differentiator from other schemes available
+  - 특히, 개인 정보 보호 거래의 감사 가능성은 다른 것들과 중대한 차이이다.
+- Each user is assigned a specific auditor who is entitled unlimited access to all the transactions of that user.
+- The auditors are passive; they may come in afterwards and extract the confidential information of all transactions the audited user is involved in, but they cannot access the data for any other party.
+  - 감시자는 수동적이다; 감시자들은 그들이 포함 된 모든 거래에 대하여 기밀 정보를 추출 할 수 있다. 하지만 다른 집단에는 접근 할 수 없다.
+  - 즉, 거래에 참여하여 거래 내부를 들여다 볼 필요가 있는 사람에게만 정보가 공개되고, 다른 사람에게는 공개 되지 않음
+
+## Conclusion
